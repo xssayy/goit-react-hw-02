@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import Desctiption from "./components/Description/Desctiption";
 import Options from "./components/Options/Options";
 import Feedback from "./components/Feedback/Feedback";
+import Notification from "./components/Notification/Notification";
 
 const App = () => {
   const [feedback, setFeedback] = useState(() => {
@@ -34,14 +35,21 @@ const App = () => {
   }, [feedback]);
 
   const totalFeedback = feedback.good + feedback.neutral + feedback.bad;
+  const positiveFeedbackPercantage = Math.round(
+    ((feedback.good + feedback.neutral) / totalFeedback) * 100
+  );
   return (
     <>
       <Desctiption />
       <Options totalFeedback={totalFeedback} updateFeedback={updateFeedback} />
       {totalFeedback > 0 ? (
-        <Feedback feedback={feedback} totalFeedback={totalFeedback} />
+        <Feedback
+          feedback={feedback}
+          totalFeedback={totalFeedback}
+          positiveFeedbackPercantage={positiveFeedbackPercantage}
+        />
       ) : (
-        <span>No feedback yet</span>
+        <Notification />
       )}
     </>
   );
